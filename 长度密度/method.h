@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+#include <fstream>
 #include "../analysis.h"
 
 /*
@@ -6,9 +8,9 @@
 	传入值为两个浮点类型指针和整型常量（表示指针指向区域的大小）
 	比如需要测量长宽高计算体积,传入长宽高的计算值和偏差
 */
-typedef void(*func(double*,double*,int));
+typedef void(*func)(double*,double*,int);
 
-void empty(double *val,double *bia,int len){}
+void empty(double *val,double *bia,int len){printf("\n");}
 #define cylinderVolume cylv
 void cylinderVolume(double *avg,double *us,int gp);
 #define sphereVolume sphv
@@ -21,23 +23,22 @@ void method(
 	const int tm,			//重复实验次数
 	const int gp,			//待计算组数
 	char* filename,			//数据所在文件名
-	func furtherF = empty	//合成不确定度的函数
+	func furtherF = &empty	//合成不确定度的函数
 	)
 {
-	double *l[gp];
+	double l[gp][tm];
 	double ub;
-	fstream infile(filename,ios::in);
-	if(!infile.is_open()) printf("open file failed!"),return;
-	for(int i=0; i<gp; ++i) l[i] = new double[tm];
+	std::fstream infile(filename,std::ios::in);
+	if(!infile.is_open()){ printf("open file failed!"); return; }
 	for(int i=0; i<gp; ++i)
 		for(int j=0; j<tm; ++j)
-			infile>>l[j][i];
+			infile>>l[i][j];
 	infile>>ub;
 	ub /= sqrt(3.0);
 	infile.close();
 
 	double avg[gp];
-	printf("\naverage:\n");
+	printf("average:\n");
 	for(int i=0; i<gp; ++i) avg[i] = mean(l[i],tm), printf("%f\t",avg[i]);
 	printf("\nstantard dev:\n");
 	for(int i=0; i<gp; ++i) printf("%f\t",stan(l[i],tm));
@@ -59,8 +60,6 @@ void method(
 	
 	//计算二级指标
 	furtherF(avg,us,gp);
-
-	for(int i=0; i<gp; ++i) delete []l[i];
 }
 
 
@@ -72,14 +71,14 @@ void cylv(double *avg,double *us,int gp){
 	uv += pow(2*avg[2]*avg[3]*us[2],2);
 	uv += pow(avg[2]*avg[2]*us[3],2);
 	uv = pi*sqrt(uv)/4;
-	printf("\nbiase of volume:%f\n\n",uv);
+	printf("\nbiase of volume:%f\n",uv);
 }
 
 void sphv(double *avg,double *us,int gp){
 	double V = pi*pow(*avg,3)/6;
-	printf("\n\nthe volume:%f\n",V);
+	printf("\n\nthe volume:%f",V);
 	double uv = pi*(*avg)*(*avg)*(*us)/2;
-	printf("\nbiase of volume:%f\n\n",uv);
+	printf("\nbiase of volume:%f\n",uv);
 }
 
 void dsty(double *avg,double *us,int gp){
@@ -88,5 +87,5 @@ void dsty(double *avg,double *us,int gp){
 	uv += pow( avg[0]/avg[1]/avg[1]*us[0],2 );
 	uv += pow( avg[1]/avg[0]/avg[0]*us[1],2 );
 	uv = sqrt(uv);
-	printf("\nbiase of density:%f\n\n",uv);
+	printf("\nbiase of density:%f\n",uv);
 }
