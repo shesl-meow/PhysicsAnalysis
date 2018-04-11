@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../analysis.h"
 #include <fstream>
-using namespace std;
 
 double t[3][4],l[2];
 
@@ -10,7 +9,6 @@ double ee(double v1,double v2,double u1,double u2){
 }
 
 int main(){
-	cout<<"Debug!"<<endl;
 	fstream infile("data.txt",ios::in);
 	if(!infile.is_open()){
 		cerr<<"open wrong!"<<endl;
@@ -25,17 +23,16 @@ int main(){
 
 	for(int i=0; i<3; i++){
 		for(int j=0; j<4; j++)
-			cout<<t[i][j]<<" ";
-		cout<<endl;
+			printf("%f ",t[i][j]);
+		printf("\n");
 	}
 	for(int k=0; k<2; k++)
-		cout<<l[k]<<" ";
+		printf("%f ",l[k]);
 
 	cout<<"\n\ne1"<<endl;
 	for(int i=0; i<3; i++){
-		double v1=l[0]/t[i][0],u2=l[1]/t[i][1];
-		cout<<"v1:"<<v1<<"\nu2:"<<u2<<endl;	
-		cout<<abs(v1/u2)<<endl;
+		double v1=l[0]/t[i][0],v2=0,u1=0,u2=l[1]/t[i][1];
+		printf("v1:%f\nu2:%f\n",v1,u2,ee(v1,v2,u1,u2));
 	}
 
 	return 0;
