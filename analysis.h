@@ -30,10 +30,10 @@ _tp_T_ T pow(T base,int power){
 	return res;
 }
 
-_tp_T_ T sqrt(const T &num,T ac=1e-10){
+_tp_T_ double sqrt(const T &num,double ac=1e-10){
 	if(num<0) return 0;
-	T res1=0,res2=num;
-	while( res1-res2>ac || res2-res1>ac ){
+	double res1=0,res2=num;
+	while( abs(res1-res2)>ac ){
 		res1 = res2;
 		res2 = (res2+num/res2)/2;
 	}
