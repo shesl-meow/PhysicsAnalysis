@@ -1,6 +1,6 @@
 #pragma once
 
-typedef double(*func(double*));
+typedef double(*func(double*,));
 
 void method(
 	const int tm,	//重复实验次数
@@ -21,20 +21,28 @@ void method(
 	ub /= sqrt(3.0);
 	infile.close();
 
+	double avg[gp];
 	printf("\naverage:\n");
-	for(int i=0; i<gp; ++i) printf("%f\t",mean(l[i],tm));
+	for(int i=0; i<gp; ++i) avg[i] = mean(l[i],tm), printf("%f\t",avg[i]);
+
 	printf("\nstantard dev:\n");
 	for(int i=0; i<gp; ++i) printf("%f\t",stan(l[i],tm));
+
 	printf("\nmean standard dev:\n");
 	for(int i=0; i<gp; ++i) printf("%f\t",mstan(l[i],tm));
-	printf("\nuncertianty(ua):\n");
+	
 	double ua[gp];
+	printf("\nuncertianty(ua):\n");
 	for(int i=0; i<gp; ++i) ua[i] = ucty(l[i],tm), printf("%f\t",ua[i]);
+	
 	printf("\nuncertianty(ub):%f",ub);
-	printf("\nuncertianty(synthesis):\n");
 
 	double us[gp];
-	for(int i=0; i<gp; ++i) us[i] = , printf("%f\t", us[i]);
+	printf("\nuncertianty(synthesis):\n");
+	for(int i=0; i<gp; ++i){
+		us[i] = synthesisF();
+		printf("%f\t", us[i]);
+	}
 
 	printf("\n\n");
 	for(int i=0; i<gp; ++i) delete []l[i];
