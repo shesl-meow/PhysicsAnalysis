@@ -1,12 +1,17 @@
 #pragma once
+#include "../analysis.h"
 
-typedef double(*func(double*,));
+typedef void(*func(double*,double*,int));
+
+void empty(double *val,double *bia,int len){}
+#define cylinderVolume cylv
+void cylinderVolume(double *avg,double *us,int gp);
 
 void method(
-	const int tm,	//重复实验次数
-	const int gp,	//待计算组数
-	char* filename,	//数据所在文件名
-	func synthesisF	//合成不确定度的函数
+	const int tm,			//重复实验次数
+	const int gp,			//待计算组数
+	char* filename,			//数据所在文件名
+	func furtherF = empty	//合成不确定度的函数
 	)
 {
 	double *l[gp];
@@ -24,28 +29,38 @@ void method(
 	double avg[gp];
 	printf("\naverage:\n");
 	for(int i=0; i<gp; ++i) avg[i] = mean(l[i],tm), printf("%f\t",avg[i]);
-
 	printf("\nstantard dev:\n");
 	for(int i=0; i<gp; ++i) printf("%f\t",stan(l[i],tm));
-
 	printf("\nmean standard dev:\n");
 	for(int i=0; i<gp; ++i) printf("%f\t",mstan(l[i],tm));
 	
+	//A类不确定度计算
 	double ua[gp];
 	printf("\nuncertianty(ua):\n");
 	for(int i=0; i<gp; ++i) ua[i] = ucty(l[i],tm), printf("%f\t",ua[i]);
 	
+	//B类不确定度打印
 	printf("\nuncertianty(ub):%f",ub);
 
+	//不确定度合成并计算
 	double us[gp];
 	printf("\nuncertianty(synthesis):\n");
-	for(int i=0; i<gp; ++i){
-		us[i] = synthesisF();
-		printf("%f\t", us[i]);
-	}
+	for(int i=0; i<gp; ++i) us[i] = sqrt( ua[i]*ua[i]+ub*ub ), printf("%f\t", us[i]);
+	
+	//计算二级指标--比如需要测量长宽高计算体积
+	furtherF(avg,us,gp);
 
-	printf("\n\n");
 	for(int i=0; i<gp; ++i) delete []l[i];
 }
 
-sqrt( ua[i]*ua[i]+ub*ub )
+
+void cylv(double *avg,double *us,int gp){
+	printf("\n\nthe volume:%f",pi*(avg[0]*avg[0]*avg[1]-avg[2]*avg[2]*avg[3])/4 );
+	double uv = 0;
+	uv += pow(2*avg[0]*avg[1]*us[0],2);
+	uv += pow(avg[0]*avg[0]*us[1],2);
+	uv += pow(2*avg[2]*avg[3]*us[2],2);
+	uv += pow(avg[2]*avg[2]*us[3],2);
+	uv = pi*sqrt(uv)/4;
+	printf("\nbiase of volume:%f\n\n",uv);
+}
