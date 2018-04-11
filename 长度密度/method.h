@@ -1,11 +1,21 @@
 #pragma once
 #include "../analysis.h"
 
+/*
+	计算二级指标函数指针定义
+	传入值为两个浮点类型指针和整型常量（表示指针指向区域的大小）
+	比如需要测量长宽高计算体积,传入长宽高的计算值和偏差
+*/
 typedef void(*func(double*,double*,int));
 
 void empty(double *val,double *bia,int len){}
 #define cylinderVolume cylv
 void cylinderVolume(double *avg,double *us,int gp);
+#define sphereVolume sphv
+void sphereVolume(double *avg,double *us,int gp);
+#define density dsty
+void density(double *avg,double *us,int gp);
+
 
 void method(
 	const int tm,			//重复实验次数
@@ -47,7 +57,7 @@ void method(
 	printf("\nuncertianty(synthesis):\n");
 	for(int i=0; i<gp; ++i) us[i] = sqrt( ua[i]*ua[i]+ub*ub ), printf("%f\t", us[i]);
 	
-	//计算二级指标--比如需要测量长宽高计算体积
+	//计算二级指标
 	furtherF(avg,us,gp);
 
 	for(int i=0; i<gp; ++i) delete []l[i];
@@ -63,4 +73,20 @@ void cylv(double *avg,double *us,int gp){
 	uv += pow(avg[2]*avg[2]*us[3],2);
 	uv = pi*sqrt(uv)/4;
 	printf("\nbiase of volume:%f\n\n",uv);
+}
+
+void sphv(double *avg,double *us,int gp){
+	double V = pi*pow(*avg,3)/6;
+	printf("\n\nthe volume:%f\n",V);
+	double uv = pi*(*avg)*(*avg)*(*us)/2;
+	printf("\nbiase of volume:%f\n\n",uv);
+}
+
+void dsty(double *avg,double *us,int gp){
+	printf("\n\nthe density:%f",avg[0]/avg[1]);
+	double uv = 0;
+	uv += pow( avg[0]/avg[1]/avg[1]*us[0],2 );
+	uv += pow( avg[1]/avg[0]/avg[0]*us[1],2 );
+	uv = sqrt(uv);
+	printf("\nbiase of density:%f\n\n",uv);
 }
