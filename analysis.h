@@ -1,5 +1,6 @@
 #pragma once
 #define _tp_T_ template<class T>
+#define pi 3.141592654
 
 _tp_T_ T abs(T num,T zero=0){
 	return (num>zero)?num:zero-num;
