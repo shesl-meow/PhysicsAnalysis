@@ -2,7 +2,7 @@
 #define _tp_T_ template<class T>
 
 _tp_T_ T abs(T num,T zero=0){
-	return (num>zero)?num:-num;
+	return (num>zero)?num:zero-num;
 }
 
 _tp_T_ T min(T *ar,int length){
