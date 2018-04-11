@@ -93,7 +93,7 @@ _tp_T_ T unbiaseCov(const T *A,const T *B,const int &length){
 }
 
 #define confDomain cfd
-static const double confDomain[6]={1.84,1.32,1.2,1.14,1.11,1.09};
+static const T confDomain[6]={1.84,1.32,1.2,1.14,1.11,1.09};
 #define uncertainty ucty
 _tp_T_ T uncertainty(const T *ar,const int &length){
 	if(length>6) return -1;
@@ -105,4 +105,15 @@ _tp_T_ T regression(const T *A,const T *B,const int &length){
 	T covAB = cov(A,B,length);
 	T covBB = cov(B,B,length);
 	return covAB/covBB;
+}
+
+#define BiaseOfReg BofR
+_tp_T_ T BiaseOfReg(const T *A,
+	const T *B, const unsigned int length){
+	T cvab = cov(A,B,length),
+		cvaa = cov(A,A,length),
+		cvbb = cov(B,B,length);
+	T R = cvab*cvab/(cvaa*cvbb);
+	T k = cvab/cvbb;
+	return k*sqrt( (1/R-1)/(length-2) );
 }
