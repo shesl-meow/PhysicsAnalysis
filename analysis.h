@@ -1,8 +1,8 @@
 #pragma once
 #define _tp_T_ template<class T>
 
-_tp_T_ T abs(T num){
-	return (num>0)?num:-num;
+_tp_T_ T abs(T num,T zero=0){
+	return (num>zero)?num:-num;
 }
 
 _tp_T_ T min(T *ar,int length){
@@ -32,9 +32,7 @@ _tp_T_ T pow(T base,int power){
 _tp_T_ T sqrt(const T &num,T ac=1e-10){
 	if(num<0) return 0;
 	T res1=0,res2=num;
-	std::cout<<num<<std::endl;
 	while( res1-res2>ac || res2-res1>ac ){
-		printf("res1:%f\tres2:%f\n",res1,res2);
 		res1 = res2;
 		res2 = (res2+num/res2)/2;
 	}
