@@ -102,7 +102,7 @@ _tp_T_ T uncertainty(const T *ar,const int &length){
 
 #define regression reg
 _tp_T_ T regression(const T *A,const T *B,const int &length){
-	T covAB = cov(A,B,length); //std::cout<<covAB<<std::endl;
-	T covBB = cov(B,B,length); //std::cout<<covBB<<std::endl;
+	T covAB = cov(A,B,length);
+	T covBB = cov(B,B,length);
 	return covAB/covBB;
 }
