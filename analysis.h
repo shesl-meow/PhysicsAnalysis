@@ -93,7 +93,7 @@ _tp_T_ T unbiaseCov(const T *A,const T *B,const int &length){
 }
 
 #define confDomain cfd
-static const T confDomain[6]={1.84,1.32,1.2,1.14,1.11,1.09};
+static const double confDomain[6]={1.84,1.32,1.2,1.14,1.11,1.09};
 #define uncertainty ucty
 _tp_T_ T uncertainty(const T *ar,const int &length){
 	if(length>6) return -1;
