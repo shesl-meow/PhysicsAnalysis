@@ -1,5 +1,5 @@
 #include <iostream>
-#include "method.h"
+#include "funcDef.h"
 
 int main(){
 	method(4,4,(char*)("table1.txt"));
