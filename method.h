@@ -10,7 +10,7 @@
 */
 typedef void(*func)(double*,double*,int);
 
-_tp_T_ void empty(T *val,T *bia,int len){printf("\n");}
+_tp_T_ inline void empty(T *val,T *bia,int len){printf("\n");}
 _tp_T_ void method(T **l,const int tm,const int gp,const T ub, func furtherF = &empty);
 
 void method(
