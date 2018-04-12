@@ -67,3 +67,38 @@ _tp_T_ void method(T **l,	//存储待分析数据的二维数组，每一行表�
 	//计算二级指标
 	furtherF(avg,us,gp);
 }
+
+//当各个自变量的对照实验组数不想等时
+_tp_T_ void method(T **l,	//存储待分析数据的二维数组，每一行表示一个种类的变量
+	int *tm,	//二维数组列数,即各个变量的实验次数
+	const int gp,	//二维数组行数
+	T *ub,	//B类不确定度
+	func furtherF = &empty	//合成不确定度的函数
+	)
+{
+	T avg[gp];
+	printf("average:\n");
+	for(int i=0; i<gp; ++i) avg[i] = mean(l[i],tm[i]), printf("%f\t",avg[i]);
+	printf("\nstantard dev:\n");
+	for(int i=0; i<gp; ++i) printf("%f\t",stan(l[i],tm[i]));
+	printf("\nmean standard dev:\n");
+	for(int i=0; i<gp; ++i) printf("%f\t",mstan(l[i],tm[i]));
+	
+	//A类不确定度计算
+	T ua[gp];
+	printf("\nuncertianty(ua):\n");
+	for(int i=0; i<gp; ++i)
+		ua[i] = ucty(l[i],tm[i]), printf("%f\t",ua[i]);
+	
+	//B类不确定度打印
+	printf("\nuncertianty(ub):\n");
+	for(int i=0; i<gp; ++i) printf("%f\t",ub[i]);
+
+	//不确定度合成并计算
+	T us[gp];
+	printf("\nuncertianty(synthesis):\n");
+	for(int i=0; i<gp; ++i) us[i] = sqrt( ua[i]*ua[i]+ub[i]*ub[i] ), printf("%f\t", us[i]);
+	
+	//计算二级指标
+	furtherF(avg,us,gp);
+}
