@@ -19,7 +19,7 @@ void regF(double*A,double*B,const int l)
 	printf("\nbiased of reg-coef:%f",BofR(A,B,l));
 	printf("\nbiased of intercept:%f",sqrt(mean(sA,l))*BofR(A,B,l));
 
-	printf("\nB = %f*A + %f",covAB/covAA,b-covAB*a/covAA);
+	printf("\n\nB = %f*A + %f",covAB/covAA,b-covAB*a/covAA);
 	printf("\nbiased of reg-coef:%f",BofR(B,A,l));
 	printf("\nbiased of intercept:%f",sqrt(mean(sB,l))*BofR(B,A,l));
 	
