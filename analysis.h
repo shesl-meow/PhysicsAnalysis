@@ -60,6 +60,7 @@ _tp_T_ T var(const T *ar,const int &length){
 
 #define unbiaseVar ubvar
 _tp_T_ T unbiaseVar(const T *ar,const int &length){
+	if(length==1) return 0;
 	const T M = mean(ar,length);
 	T ubv = 0;
 	for(int i=0; i<length; ++i)
@@ -86,6 +87,7 @@ _tp_T_ T cov(const T *A,const T *B,const int &length){
 
 #define unbiaseCov ubcov
 _tp_T_ T unbiaseCov(const T *A,const T *B,const int &length){
+	if(length==1) return 0;
 	T res = 0;
 	T mA=mean(A,length),mB=mean(B,length);
 	for(int i=0; i<length; ++i)
@@ -111,6 +113,7 @@ _tp_T_ T regression(const T *A,const T *B,const int &length){
 #define BiaseOfReg BofR
 _tp_T_ T BiaseOfReg(const T *A,
 	const T *B, const unsigned int length){
+	if(length<3) return 0;
 	T cvab = cov(A,B,length),
 		cvaa = cov(A,A,length),
 		cvbb = cov(B,B,length);
