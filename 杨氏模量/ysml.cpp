@@ -34,14 +34,6 @@ int main(){
 		printf("%f\t%f\n",delth[i],deltm[i]);
 	}
 	
-	// printf("\n----------------------\n");
-	// printf("---analysis for delt(hj):\n");
-	// double *tmp = &delth[0];
-	// method(&tmp,tm-delt,1,ub[0]);
-	// printf("\n----------------------\n");
-	// printf("---analysis for D:\n");
-	// tmp = &D[0];
-	// method(&tmp,tm,1,ub[1]);
 	printf("\n----------------------\n");
 	printf("analysis sequence as below:\n");
 	printf("B\t\tl\t\tdelt(mj)\tD\t\tb\t\tdelt(hj)\n");
