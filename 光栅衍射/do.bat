@@ -1,2 +1,2 @@
-./a data.txt
+a.exe data.txt
 pause>nul
