@@ -1,4 +1,4 @@
-#include "degree.h"
+#include "DclrDegree.h"
 #include <iostream>
 
 void testArg(char argv)
@@ -26,7 +26,7 @@ int main(int argv,char **argc)
 		std::fstream in(argc[1],std::ios::in);
 		testFile(in);
 		double GreenW = 0,d = 0;
-		Time raw[6][3];
+		Degree raw[6][3];
 		in>>GreenW;
 		for(int i=0; i<6; ++i)
 		{
@@ -36,15 +36,15 @@ int main(int argv,char **argc)
 		}
 		in.close();
 
-		Time Avg[3],Half[3];
+		Degree Avg[3],Half[3];
 		for(int i=0; i<3; ++i)
 		{
 			Avg[i] = (raw[2*i][2]+raw[2*i+1][2])/2;
 			Half[i] = Avg[i]/2;
 		}
-		d = GreenW/sin(t2d(Half[0]));
+		d = GreenW/sin(dgr2arc(Half[0]));
 		double lambda[2] =
-			{d*sin(t2d(Half[1]))/2, d*sin(t2d(Half[2]))/2};
+			{d*sin(dgr2arc(Half[1]))/2, d*sin(dgr2arc(Half[2]))/2};
 
 		std::cout<<"green wavelength:\t"<<GreenW<<std::endl;
 		std::cout<<"delta angle:\t"<<raw[0][2]<<"\t"<<raw[1][2]<<std::endl;
