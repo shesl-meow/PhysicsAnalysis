@@ -17,7 +17,7 @@ with open("dp.txt","r") as f:
 with open("dn.txt","r") as f:
     raw = f.readlines()
     dtDU = dtDU + [i for i in reversed(list(map(float,raw[0].split())))]
-    dtDI = dtDI + [-i for i in reversed(list(map(float,raw[1].split())))]
+    dtDI = dtDI + [-0.001*i for i in reversed(list(map(float,raw[1].split())))]
 
 plt.subplot(211)
 plt.plot(dtI,dtU)
