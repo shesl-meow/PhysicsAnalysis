@@ -104,10 +104,19 @@ _tp_T_ T uncertainty(const T *ar,const int &length){
 }
 
 #define regression reg
+//当A=k*B+b分析时的回归分析系数
 _tp_T_ T regression(const T *A,const T *B,const int &length){
 	T covAB = cov(A,B,length);
 	T covBB = cov(B,B,length);
 	return covAB/covBB;
+}
+
+#define InterceptOfReg inCofR
+_tp_T_ T InterceptOfReg(const T *A,const T*B,const int &length){
+	T meanA = mean(A,length);
+	T meanB = mean(B,length);
+	T k = regression(A,B,length);
+	return meanA-k*meanB;
 }
 
 #define BiaseOfReg BofR
